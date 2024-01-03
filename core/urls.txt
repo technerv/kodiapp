@@ -1,0 +1,39 @@
+from django.urls import path, include
+# from .views import *
+
+from rest_framework.routers import DefaultRouter
+
+app_name = 'core'
+
+router = DefaultRouter()
+router.register("plot", views.PlotViewSet)
+
+urlpatterns = [    
+
+    # PLOT API ENDPOINTS
+    # path('plot', ShowAllPlots.as_view()), #list all plots
+    # path('plot/create/', CreatePlot.as_view()), #create/add new plot
+    # path('plot/<int:pk>/', UpdatePlot.as_view()), #update plot
+    # path('plot/delete/<int:pk>/', DeletePlot.as_view()), #delete plot
+
+  	# # path('plots', PlotGetCreate.as_view(), name='show-all-plots'), #get/create plot
+    # # path('plots/<int:pk>/', PlotUpdateDelete.as_view(), name='update-delete-plot'), #update/delete plot
+   
+    # # HOUSE API ENDPOINTS
+    # path('house', ShowAllHouses.as_view()), #list all houses
+    # path('house/create/', CreateHouse.as_view()), #create/add new house
+    # path('house/<int:pk>/', UpdateHouse.as_view()), #update house
+    # path('house/delete/<int:pk>/', DeleteHouse.as_view()), #delete house
+    
+    # # path('tenants', TenantGetCreate.as_view(), name='show-all-tenants'),
+    # # path('tenants/<int:pk>/', TenantUpdateDelete.as_view(), name='update-delete-tenant'), #update tenant
+   
+    # # TENANT API
+    # path('tenant', ShowAllTenants.as_view()), #list all tenants
+    # path('tenant/create/', CreateTenant.as_view()), #create/add new tenant
+    # path('tenant/<int:pk>/', UpdateTenant.as_view()), #update tenant
+    # path('tenant/delete/<int:pk>/', DeleteTenant.as_view()), #delete tenant
+
+    # path('houses', HouseGetCreate.as_view(), name='show-all-houses'),
+    # path('houses/<int:pk>/', HouseUpdateDelete.as_view(), name='update-delete-house'), #update house
+]

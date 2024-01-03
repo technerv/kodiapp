@@ -1,0 +1,44 @@
+# # List/Read All Houses
+# class ShowAllHouses(APIView):
+    
+#     def get(self, request):
+#         queryset = House.objects.all()
+#         serializer_class = HouseSerializer(queryset, many=True)
+#         return Response(serializer_class.data)
+
+# # Create House
+# class CreateHouse(generics.CreateAPIView):
+    
+#     serializer_class = HouseSerializer
+
+# # Update House
+# class UpdateHouse(generics.RetrieveUpdateAPIView):
+    
+#     serializer_class = HouseSerializer
+
+# # Delete House
+# class DeleteHouse(generics.RetrieveUpdateDestroyAPIView):
+
+#     serializer_class = HouseSerializer
+
+# # List/Read All Tenants
+# class ShowAllTenants(APIView):
+    
+#     def get(self, request):
+#         serializer_class = TenantSerializer(queryset, many=True)
+#         return Response(serializer_class.data)
+
+# # Create House
+# class CreateTenant(generics.CreateAPIView):
+    
+#     serializer_class = TenantSerializer
+
+# # Update House
+# class UpdateTenant(generics.RetrieveUpdateAPIView):
+
+#     serializer_class = TenantSerializer
+
+# # Delete House
+# class DeleteTenant(generics.RetrieveUpdateDestroyAPIView):
+
+#     serializer_class = TenantSerializer

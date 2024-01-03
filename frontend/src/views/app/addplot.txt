@@ -1,0 +1,87 @@
+import React, {useState} from 'react';
+import axios from 'axios';
+import {Link} from 'react-router-dom';
+import {useNavigate} from 'react-router';
+import { ButtonGroup, Card, Col, Row } from 'react-bootstrap';
+import {
+  FormGroup,
+  Input,
+} from 'reactstrap';
+
+const AddPlot = () => {
+
+  const [plotNumber, setPlotNumber] = useState("")
+  // const [plotImage, setPlotImage] = useState(null)
+
+  const navigate = useNavigate()
+
+  const AddPlotInfo = async () => {
+
+    let formField = new FormData()
+
+    formField.append('plot_number', plotNumber)
+    // if (plotImage!== null){
+    //   formField.append('plot_image', plotImage)
+    // }
+
+    await axios({
+      method: 'post',
+      url: 'http://localhost:8000/api/plot/create/',
+      headers: {
+        'Accept': 'application/json', 
+        'Content-Type': 'application/json',
+        Authorization: `Token ${localStorage.getItem('token')}`
+      },
+      data: formField
+    }).then((response) => {
+      console.log(response.data)
+      navigate('/')
+    })
+
+  }
+    return (
+    <div className="content">
+    <Row>
+    <Col>
+
+    </Col>
+<Col><br />
+<Card>
+      <Card.Header><h4>Add New Plot</h4></Card.Header>
+      <Card.Body>
+            <form method='POST' enctype='multipart/formdata'>
+              <FormGroup>
+              <Input
+                name = "plot_number"
+                value={plotNumber}
+                type="text"
+                placeholder="Your Plot Number"
+                onChange={(e)=>setPlotNumber(e.target.value)}
+              /> <br />
+              {/* <Input
+                name = "plot_image"
+                src={plotImage}
+                type="file"
+                placeholder="Your Plot Image"
+                onChange={(e)=>setPlotImage(e.target.files[0])}
+              /> */}
+              </FormGroup>
+              <ButtonGroup>
+              <button type='submit' className='btn btn-success' onClick={AddPlotInfo}>Submit</button>
+              <Link to="/plot" className="btn btn-danger">Cancel</Link>
+              </ButtonGroup>
+            </form>
+      </Card.Body>
+      </Card>
+</Col>
+<Col>
+
+</Col>
+
+    </Row>
+
+        </div>
+    )
+}
+
+export default AddPlot;

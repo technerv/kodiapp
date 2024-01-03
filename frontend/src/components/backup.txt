@@ -1,0 +1,27 @@
+
+ <div className='App'>
+    <Navbar bg="myRed" variant="dark" sticky="top" expand="sm" collapseOnSelect>
+    <Navbar.Brand>
+      <img src={logo} width="40px" height="40px" alt="Logo" />
+      {' '}KODI
+    </Navbar.Brand>
+    <Navbar.Toggle />
+    <Navbar.Collapse>
+    <Nav>
+      <Nav.Link href='dashboard'>Dashboard</Nav.Link>
+      <Nav.Link href='plots'>Plots</Nav.Link>
+      <Nav.Link href='houses'>Houses</Nav.Link>
+      <Nav.Link href='tenants'>Tenants</Nav.Link>
+      <NavDropdown title='User'>
+        <NavDropdown.Item href='users/login'>Login</NavDropdown.Item>
+        <NavDropdown.Item href='users/register'>Sign Up</NavDropdown.Item>
+      </NavDropdown>
+    </Nav>
+    </Navbar.Collapse>
+    </Navbar>
+    <div className='content'>
+    <Home/>
+    <Dashboard/>
+    </div>
+
+    </div>

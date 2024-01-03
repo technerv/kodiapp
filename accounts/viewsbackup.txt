@@ -1,0 +1,119 @@
+# from django.shortcuts import get_object_or_404
+# from django.contrib.auth.models import update_last_login
+# from django_rest_logger import log
+
+# from knox.auth import AuthToken
+# from knox.auth import TokenAuthentication
+# from knox.models import AuthToken
+
+# from rest_framework.decorators import api_view
+# from rest_framework.authtoken.serializers import AuthTokenSerializer
+# from rest_framework import status
+# from rest_framework.authentication import BasicAuthentication
+# from rest_framework.generics import GenericAPIView
+# from rest_framework.mixins import CreateModelMixin
+# from rest_framework.permissions import IsAuthenticated
+# from rest_framework.response import Response
+# from rest_framework.authtoken.views import ObtainAuthToken
+
+# from accounts.models import User
+# from accounts.serializers import RegisterSerializer, UserSerializer, LoginSerializer
+# from .utils import AtomicMixin
+
+# import time
+# from django.conf import settings
+
+# TOKENEXPIRY=7
+# # TOKENEXPIRY=settings.TOKENEXPIRY
+
+# # Class to register new user
+# class UserRegisterView(AtomicMixin, CreateModelMixin, GenericAPIView):
+#     serializer_class = RegisterSerializer
+#     authentication_classes = ()
+
+#     def post(self, request):
+#         """User registration view."""
+#         return self.create(request)
+
+# @api_view(['POST'])
+# def login_api(request):
+# 	serializer = AuthTokenSerializer(data=request.data)
+# 	serializer.is_valid(raise_exception=True)
+# 	user = serializer.validated_data['user']
+# 	_, token = AuthToken.objects.create(user)
+
+# 	return Response({
+# 		'user_info': {
+# 			'id': user.id,
+# 			'username': user.username,
+# 			'email': user.email
+# 		},
+
+# 		'token': AuthToken.objects.create(user)[1]
+# 	})
+
+# # Class to login registered user
+# class UserLoginView(GenericAPIView):
+#     serializer_class = LoginSerializer
+    
+#     authentication_classes = (BasicAuthentication,)
+#     permission_classes = (IsAuthenticated,)
+    
+#     def post(self, request):
+#         """User login with username and password."""
+#         token = AuthToken.objects.create(request.user)
+#         user=request.user
+#         update_last_login(None, user)
+#         print(self.get_serializer(request.user).data)
+#         print(token)
+#         expires=int(time.time())+int((TOKENEXPIRY-1)*86400)
+#         return Response({
+#             'user': self.get_serializer(request.user).data,
+#             'token': AuthToken.objects.create(user)[1],
+#             'expires': expires
+#         })
+
+# class CustomAuthToken(ObtainAuthToken):
+    
+#     def post(self, request, *args, **kwargs):
+#         serializer = self.serializer_class(data=request.data,
+#                                            context={'request': request})
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.validated_data['user']
+
+#         token, created = AuthToken.objects.get_or_create(user=user)
+#         return Response({
+#             'token': token.key,
+#             'user': user,
+#             'created': created
+
+#         })
+        
+# class UserConfirmEmailView(AtomicMixin, GenericAPIView):
+#     serializer_class = None
+#     authentication_classes = ()
+
+#     def get(self, request, activation_key):
+#         """
+#         View for confirm email.
+
+#         Receive an activation key as parameter and confirm email.
+#         """
+#         user = get_object_or_404(User, activation_key=str(activation_key))
+#         if user.confirm_email():
+#             return Response(status=status.HTTP_200_OK)
+
+#         log.warning(message='Email confirmation key not found.',
+#                     details={'http_status_code': status.HTTP_404_NOT_FOUND})
+#         return Response(status=status.HTTP_404_NOT_FOUND)
+
+# class UserEmailConfirmationStatusView(GenericAPIView):
+#     serializer_class = None
+#     authentication_classes = (TokenAuthentication,)
+#     permission_classes = (IsAuthenticated,)
+    
+#     def get(self, request):
+#         """Retrieve user current confirmed_email status."""
+#         user = self.request.user
+#         return Response({'status': user.confirmed_email}, status=status.HTTP_200_OK)
+   
